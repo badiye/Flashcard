@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flashcard Admin</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    label, input, select, button { display: block; margin: 0.5rem 0; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Flashcard Admin Panel</h1>
+
+  <h2>Add New Category</h2>
+  <input type="text" id="category-name" placeholder="e.g. history" />
+  <button onclick="createCategory()">Create Category</button>
+
+  <h2>Add New Flashcard</h2>
+  <label>Question:</label>
+  <input type="text" id="flashcard-question" />
+
+  <label>Answer:</label>
+  <input type="text" id="flashcard-answer" />
+
+  <label>Category:</label>
+  <select id="flashcard-category"></select>
+
+  <button onclick="createFlashcard()">Create Flashcard</button>
+
+  <script src="admin.js"></script>
+</body>
+</html>
