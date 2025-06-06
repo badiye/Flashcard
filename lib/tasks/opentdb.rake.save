@@ -1,0 +1,40 @@
+equire 'net/http'
+require 'json'
+require 'cgi'
+
+namespace :opentdb do
+  desc "Import flashcards from OpenTDB into the database"
+  task import: :environment do
+    puts "Importing flashcards from OpenTDB..."
+
+    categories = {
+      "geography" => 22,
+      "math" => 19,
+      "science" => 17
+    }
+
+    categories.each do |name, id|
+      puts "Fetching #{name.capitalize}..."
+
+      uri = URI("https://opentdb.com/api.php?amount=50&category=#{id}&type=multiple")
+      response = Net::HTTP.get(uri)
+      data = JSON.parse(response)
+
+      data["results"].each do |item|
+        question = CGI.unescapeHTML(item["question"])
+        answer = CGI.unescapeHTML(item["correct_answer"])
+
+        Flashcard.create!(
+          category: name,
+          question: question,
+          answer: answer
+        )
+      end
+
+      puts "✔️  Imported #{data['results'].length} #{name} flashcards."
+    end
+
+    puts "✅ All done!"
+  end
+end
+
